@@ -25,7 +25,7 @@ public class PaymentController {
 
     @PostMapping("/{reference}")
     public void moneySentNotification(@PathVariable String reference) {
-        refSessionHolder.getSessions(reference).forEach(log::debug);
+        refSessionHolder.getSessions(reference).forEach(session -> System.out.println("sid " + session));
         refSessionHolder.getSessions(reference)
                 .forEach(sessionId ->
                         simpMessagingTemplate.convertAndSendToUser(

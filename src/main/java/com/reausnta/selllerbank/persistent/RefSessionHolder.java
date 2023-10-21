@@ -1,5 +1,6 @@
 package com.reausnta.selllerbank.persistent;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+@Slf4j
 @Component
 public class RefSessionHolder {
     private final ConcurrentMap<String, Set<String>> refToSessionsMap = new ConcurrentHashMap<>();
@@ -35,8 +37,8 @@ public class RefSessionHolder {
         }
         refToSessionsMap.remove(reference);
 
-        System.out.println(refToSessionsMap);
-        System.out.println(sessionToRefMap);
+        System.out.println("after removed: " + refToSessionsMap);
+        System.out.println("after removed: " + sessionToRefMap);
     }
 
     public void removeSession(String session) {

@@ -4,6 +4,7 @@ package com.reausnta.selllerbank.controller;
 import com.reausnta.selllerbank.model.dto.Message;
 import com.reausnta.selllerbank.persistent.RefSessionHolder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
@@ -13,16 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/notification/session")
+@RequestMapping("/api/v1/notification")
 public class PaymentController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final RefSessionHolder refSessionHolder;
 
-    @PostMapping("payments/{reference}/accept")
+    @PostMapping("/{reference}")
     public void moneySentNotification(@PathVariable String reference) {
+        refSessionHolder.getSessions(reference).forEach(log::debug);
         refSessionHolder.getSessions(reference)
                 .forEach(sessionId ->
                         simpMessagingTemplate.convertAndSendToUser(
